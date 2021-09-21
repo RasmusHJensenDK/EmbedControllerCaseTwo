@@ -1,4 +1,4 @@
-import Room as room
+from Measurement import Room as room
 
 class Device():
     _ConnectorPin = 0

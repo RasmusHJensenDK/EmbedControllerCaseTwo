@@ -1,4 +1,4 @@
-import flask as fk
+import flask as fk 
 from flask import render_template, request, url_for, flash, redirect
 import Service as svc
 from werkzeug.exceptions import abort
@@ -11,8 +11,7 @@ app.config['SECRET_KEY'] = 'PillarsOfWisdom'
 def Home():
     #Sender data igennem her - Her skal modtages data fra Servicen og opdatere siden.
     _Post = ["Test Title", "Test Created"]
-    flash("Wtf is flash")
-    return render_template('Web/index.html', posts=_Post)
+    return render_template('index.html', posts=_Post)
 
 @app.route('/Temperature/Room/<int:id>', methods=['GET'])
 def Temp(id):
