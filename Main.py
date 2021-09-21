@@ -9,6 +9,7 @@ class main():
     grl.setRGB(150,150,150)
     grl.setText("Starting up..")
 
+
     _RoomIDToExamine = 0
     _RoomDevicesToExamine = []
     grl.setText("Awating input..\nHint: Keyboard")
