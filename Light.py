@@ -12,7 +12,7 @@ def get_lys():
 class Light():
     _Device = dvc.Device(0,"NaN",0,"OFF")
     def __init__(self, device):
-        self_Device = device
+        self._Device = device
     def run(self):
         set_lys(gpi.analogRead(self._Device.get_ConnectorPin()))
         if get_lys() > 10:
