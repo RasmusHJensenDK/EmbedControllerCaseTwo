@@ -1,9 +1,8 @@
-import Room as rr
-import Device as dvc
-import SystemCheck as sc
+from Measurement import Room as rr
+from Measurement import Device as dvc
+from Data import SystemCheck as sc
 import grove_rgb_lcd as grl
 import time
-import API as myApi
 
 class main():
     grl.setRGB(150,150,150)
