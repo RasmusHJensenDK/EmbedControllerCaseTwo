@@ -30,6 +30,7 @@ class SystemCheck(threading.Thread):
                             print("Tænder lyset i bygning : " + str(i.get_Room().get_building()))
                             print("Tænder lyset i bygning : " + str(i.get_Room().get_number()))
                             input("Press a key to move on..")
+                            return "Lyst er Tændt i rum " + str(i.get_Room().get_number())
                 if i._Type == "Sound":
                     if i._State == "OFF":
                         break
@@ -44,6 +45,7 @@ class SystemCheck(threading.Thread):
                             input("Press a key to move on..")
                             grl.setRGB(0,255,0)
                             grl.setText("Nothing to show")
+                            return "Lyden er høj i rum " + str(i.get_Room().get_number())
                 if i._Type == "Temp":
                     if i._State == "OFF":
                         break

@@ -86,16 +86,14 @@ class main():
     _RoomIDToExamine = 0
     _RoomDevicesToExamine = []
     grl.setText("Awating input..\nHint: Keyboard")
-    buildingInput = input("Building Nr.? :")
-    RoomInput = input("Room nr.? :")
+    buildingInput = input("Drivhus ID? :")
     time.sleep(2)
     grl.setRGB(0,255,0)
     grl.setText("Nothing to show")
     
     for x in _DATA._Rooms:
-        if str(x.get_building()) == str(buildingInput):
-            if str(x.get_number()) == str(RoomInput):
-                _RoomIDToExamine = x.get_id()
+        if str(x.get_id()) == str(buildingInput):
+            _RoomIDToExamine = x.get_id()
 
     for x in _DATA._LightDevices:
         if (str(x.get_Room().get_id()) == str(_RoomIDToExamine)):
