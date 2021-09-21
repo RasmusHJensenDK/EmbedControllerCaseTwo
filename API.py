@@ -1,4 +1,3 @@
-from Service import Service
 import flask as fk
 from flask import render_template, request, url_for, flash, redirect
 import Service as svc

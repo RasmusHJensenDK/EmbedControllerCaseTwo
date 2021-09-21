@@ -1,6 +1,6 @@
-import Device as dvc
-import Room as rr
-import Temp as temp
+from Measurement import Device as dvc
+from Measurement import Room as rr
+from Measurement import Temp as temp
 import sqlite3
 from sqlite3 import Error
 

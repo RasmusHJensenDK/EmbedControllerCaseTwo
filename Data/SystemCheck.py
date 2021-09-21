@@ -1,9 +1,9 @@
 import threading
 import time
 import grovepi as gpi
-import Light as li
-import Sound as sd
-import Temp as tp
+from Measurement import Light as li
+from Measurement import Sound as sd
+from Measurement import Temp as tp
 import grove_rgb_lcd as grl
 
 def lcdMessage(message):
