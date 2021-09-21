@@ -1,45 +1,62 @@
 import flask as fk
 import threading
 import Temp as temp
+import Sound as sd
 import Device as dvc
 import SystemCheck as SC
 import Room as rr
+import sqlite3
 
 app = fk.Flask(__name__)
 app.config["DEBUG"] = False
 
-City_Ground_floor_South = rr.Room(1,1,1)
-City_Ground_floor_Center = rr.Room(2,1,2)
-City_Ground_floor_North = rr.Room(3,1,3)
+rooms = []
+devices = []
 
-City_Device_Ground_Floor_South_Temperature = dvc.Device(7, "Temp", City_Ground_floor_South, "ON")
-City_Device_Ground_Floor_South_Light = dvc.Device(15, "Light", City_Ground_floor_South, "ON")
-City_Device_Ground_Floor_South_Sound = dvc.Device(14, "Sound", City_Ground_floor_South, "ON")
+con = sqlite3.connect('example.db')
+with con:
+    data = con.execute("SELECT * FROM ROOM")
+    for row in data:
+        print(row)
+        rooms.append(row)
+    data2 = con.execute("SELECT * FROM Device")
+    for row in data2:
+        print(row)
+        devices.append(row)
 
-_Devices = []
-_Devices.append(City_Device_Ground_Floor_South_Temperature)
-_Devices.append(City_Device_Ground_Floor_South_Light)
-_Devices.append(City_Device_Ground_Floor_South_Sound)
 
-systemtjek = SC.SystemCheck(2, "SystemCheck", _Devices)
-systemtjek.start()
+@app.route('/', methods=['GET'])
+def Home():
+    return "<h1>Welcome to Rasmus Høholt Jensen RaspberrI Pi Proj | Embedded Controller H3</h1>"
 
-class APP(threading.Thread):
-    def __init__(self, threadID, name):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-
-    @app.route('/', methods=['GET'])
-    def Home():
-        return "<h1>TEST</h1>"
-
-    @app.route('/Temperature/Room/<int:id>', methods=['GET'])
-    def NotHome(id):
-        for x in _Devices:
-            if (str(x.get_Room().get_id()) == str(id)):
-                if x._Type == "Temp":
-                    output_temp = temp.Temperature(x)
+@app.route('/Temperature/Room/<int:id>', methods=['GET'])
+def Temp(id):
+    for x in devices:
+        for p in rooms:
+            if id == p[0]:
+                newRoom = rr.Room(p[3], p[2], p[0], p[4])
+                newDevice = dvc.Device(x[1], x[2], newRoom, x[4])
+                if str(newDevice.get_Type()) == "Temp":
+                    output_temp = temp.Temperature(newDevice, newRoom.get_vindue_state())
                     return output_temp.run()
+
+@app.route('/Sound/Room/<int:id>', methods=['GET'])
+def Sound(id):
+    for x in devices:
+        if str(x.get_Room().get_id()) == str(id):
+            if x._Type == "Sound":
+                output_sound = sd.SoundCheck(x)
+                return output_sound.run()
+
+@app.route('/AabnVinduer/Room/<int:id>', methods=['GET'])
+def AabnVinduer(id):
+    for x in devices:
+        if str(x.get_Room().get_id()) == str(id):
+            if bool(x.get_Room().get_vindue_state()) == False:
+                x.get_Room().set_vindue_state(True)
+                return "Åbner vinduerne i bygning : " + str(x.get_Room().get_building()) + " i lokale : " + str(x.get_Room().get_number()) 
+            else:
+                x.get_Room().set_vindue_state(False)
+                return "Lukker vinduerne i " + str(x.get_Room().get_building()) + " i lokale : " + str(x.get_Room().get_number()) 
 
 app.run()

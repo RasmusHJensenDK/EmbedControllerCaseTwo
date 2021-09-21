@@ -57,6 +57,7 @@ class SystemCheck(threading.Thread):
                             print("The temperature is too high in :")
                             print("Building : " + str(i.get_Room().get_building()))
                             print("Room : " + str(i.get_Room().get_number()))
+                            print("Opening windows in 3..2..1..")
                             input("Press a key to disable warning")
                             grl.setRGB(0,255,0)
                             grl.setText("Nothing to show")

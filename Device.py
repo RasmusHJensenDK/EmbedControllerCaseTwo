@@ -5,7 +5,7 @@ class Device():
     _ConnectorPin = 0
     _State = "OFF"
     _Type = "None"
-    _Room = room.Room(0,0,0)
+    _Room = room.Room(0,0,0, False)
     def __init__(self, CP, Type, Room, *State):
         self._ConnectorPin = CP
         self._Type = Type
