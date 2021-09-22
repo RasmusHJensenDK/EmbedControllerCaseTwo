@@ -1,13 +1,63 @@
 {% extends 'base.html' %}
-<!--
-{% block content %}
-    <h1>{% block title %} Hidsig PI {% endblock %}</h1>
-    {% for post in posts %}
-        <a href="#">
-            <h2>{{ post['title'] }}</h2>
-        </a>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
-        <hr>
+
+<h1>{% block title %} Hidsig PI {% endblock %}</h1>
+
+{% block firstDevicesHtml %}
+    {% for post in devices %}
+        <div class="item card card-teaser card-blog-post" style="min-height: 600px" itemscope="" itemtype="http://schema.org/BlogPosting">
+	    <div class="card-body">
+		    <a class="card-title" href="#" itemprop="headline"></a>
+		        <div class="card-subtitle text-muted">
+                    {{post[1]}}
+		        </div>
+		        <div class="card-text" itemprop="abstract">
+			    <p><span><span><span><span><strong><span><span><span>
+			    Rum ID : {{post[0]}}
+                <h3>Information</h3>
+                Vinduer er :{% if post[4] == 0 %} <i>lukket</i> {% else %} <i>åbne</i> {% endif %}
+                <br>
+                Temperatur :{{temps[post[0]]}}
+                <br>
+                Lyd :
+                <br>
+                Lys :
+                <br>
+                <br>
+                <h3 style="margin-bottom:-15px"><b>Devices</b></h3>
+                {% for dvc in thirdDevices %}
+                    {% if post[0] == dvc[3] %}
+                        <br>
+                        Type : <i>{{dvc[2]}}</i>
+                        <br>
+                        ConnectorPin : <i>{{dvc[1]}}</i>
+                        <br>
+                        STATE : <i>{{dvc[4]}}</i>
+                        <br>
+                    {% endif %}
+                {% endfor %}
+                </span></span></span></strong></span></span></span></span></p>
+		    </div>
+	    </div>
+    </div>
     {% endfor %}
 {% endblock %}
--->
+
+{% block secondDevicesHtml %}
+    {% for post in secondDevices %}
+        <div class="item card card-teaser card-blog-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+	    <div class="card-body">
+		    <a class="card-title" href="#" itemprop="headline"></a>
+		        <div class="card-subtitle text-muted">
+                    {{post[1]}}
+		        </div>
+		        <div class="card-text" itemprop="abstract">
+			    <p><span><span><span><span><strong><span><span><span>
+			    Rum ID : {{post[0]}}
+                <br>
+                Vinduer er {% if post[3] == 0 %} <i>lukket</i> {% else %} <i>åbne</i> {% endif %}
+                </span></span></span></strong></span></span></span></span></p>
+		    </div>
+	    </div>
+    </div>
+    {% endfor %}
+{% endblock %}

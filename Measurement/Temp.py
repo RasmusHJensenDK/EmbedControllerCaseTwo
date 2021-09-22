@@ -1,13 +1,10 @@
-import threading
 from Measurement import Device as dvc
 #import grovepi as gpi
 
 class Temperature():
     _Device = dvc.Device(0,"NaN",0,"OFF")
-    _VinduerAabent = False
-    def __init__(self, device, VinduerAabent):
+    def __init__(self, device):
         self._Device = device
-        self._VinduerAaben = VinduerAabent
     def run(self):
         #[temp, hum] = gpi.dht(self._Device.get_ConnectorPin(), 0)
         temp = 20
@@ -23,5 +20,8 @@ class Temperature():
                     return "Closing windows as Temp is fine"
                 else:
                     return "Temp is fine at : " + str(temp)
+    def get_temp(self):
+        [temp, hum] = gpi.dht(self._Device.get_ConnectorPin(), 0)
+        return temp
     def getVinduerState(self):
         return self._VinduerAabent

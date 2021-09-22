@@ -4,27 +4,37 @@ from Measurement import Temp as temp
 import sqlite3
 from sqlite3 import Error
 
-rooms = []
+
 devices = []
+rooms = []
 
-con = sqlite3.connect('example.db')
-with con:
-    data = con.execute("SELECT * FROM ROOM")
-    for row in data:
-        print(row)
-        rooms.append(row)
-    data2 = con.execute("SELECT * FROM Device")
-    for row in data2:
-        print(row)
-        devices.append(row)
+def updatestuff():
+    devices.clear()
+    rooms.clear()
+    con = sqlite3.connect('example.db')
+    with con:
+        data = con.execute("SELECT * FROM ROOM")
+        for row in data:
+            rooms.append(row)
+        data2 = con.execute("SELECT * FROM Device")
+        for row in data2:
+            print(row)
+            devices.append(row)
 
-def update_row(conn, task):
-    sql = ''' UPDATE ROOM
-              SET vinduerAabent = ?
-              WHERE id = ?'''
-    cur = conn.cursor()
-    cur.execute(sql, task)
-    conn.commit()
+def set_devices(x):
+    global devices 
+    devices = x
+def set_rooms(x):
+    global rooms
+    rooms = x
+
+def get_devices():
+    updatestuff()
+    return devices
+
+def get_rooms():
+    updatestuff()
+    return rooms
 
 class Service():
     _Outcome = ""
@@ -44,25 +54,26 @@ class Service():
 class OpenWindows():
     _Outcome = ""
     def __init__(self, id):
+        con = sqlite3.connect('example.db')
         for p in rooms:
             if id == p[0]:
                 newRoom = rr.Room(p[3], p[2], p[0], p[4])
-                if str(newRoom.get_Room().get_id()) == str(id):
-                    if bool(newRoom.get_Room().get_vindue_state()) == False:
-                        newRoom.get_Room().set_vindue_state(True)
+                if str(newRoom.get_id()) == str(id):
+                    if bool(newRoom.get_vindue_state()) == False:
                         try:
                             with con:
-                                update_row(con, (True, id))
+                                sql = ''' UPDATE ROOM SET vinduerAabent = 1 WHERE id = ''' + str(id)
+                                con.execute(sql)
+                            self._Outcome = "1"
                         except Error as e:
-                            print(e)
-                        self._Outcome = "Åbner vinduerne i bygning : " + str(newRoom.get_Room().get_building()) + " i lokale : " + str(newRoom.get_Room().get_number()) 
+                            self._Outcome = str(e)
                     else:
-                        newRoom.get_Room().set_vindue_state(False)
                         try:
                             with con:
-                                update_row(con, (False, id))
+                                sql = ''' UPDATE ROOM SET vinduerAabent = 0 WHERE id = ''' + str(id)
+                                con.execute(sql)
+                            self._Outcome = "0"
                         except Error as e:
-                            print(e)
-                        self._Outcome = "Lukker vinduerne i " + str(newRoom.get_Room().get_building()) + " i lokale : " + str(newRoom.get_Room().get_number()) 
+                            self._Outcome = str(e)
     def outcome(self):
         return self._Outcome

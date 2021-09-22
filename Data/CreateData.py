@@ -1,15 +1,13 @@
 import sqlite3
-import Room as rr
-import Device as dvc
 
 con = sqlite3.connect('example.db')
-#with con:
-#    data = con.execute("SELECT * FROM ROOM")
-#    for row in data:
-#        print(row)
-#    data2 = con.execute("SELECT * FROM Device")
-#    for row in data2:
-#        print(row)
+with con:
+    data = con.execute("SELECT * FROM ROOM")
+    for row in data:
+        print(row)
+    data2 = con.execute("SELECT * FROM Device")
+    for row in data2:
+        print(row)
 #with con:
 #    con.execute("""
 #        CREATE TABLE ROOM (
@@ -48,5 +46,5 @@ con = sqlite3.connect('example.db')
 #]
 
 #with con:
-#    con.executemany(sqldevice, datadevice)
+#    con.execute(sqldevice, datadevice)
 

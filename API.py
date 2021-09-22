@@ -2,6 +2,7 @@ import flask as fk
 from flask import render_template, request, url_for, flash, redirect
 import Service as svc
 from werkzeug.exceptions import abort
+from Measurement import Temp as tp
 
 app = fk.Flask(__name__)
 app.config["DEBUG"] = False
@@ -9,9 +10,22 @@ app.config['SECRET_KEY'] = 'PillarsOfWisdom'
 
 @app.route('/', methods=['GET'])
 def Home():
-    #Sender data igennem her - Her skal modtages data fra Servicen og opdatere siden.
-    _Post = ["Test Title", "Test Created"]
-    return render_template('index.html', posts=_Post)
+    newRooms = svc.get_rooms()
+    newDevices = svc.get_devices()
+    _FirstThree = []
+    _SecondThree = []
+    _Devices = []
+    _MeasuredTemperatureList = []
+    for item in newRooms[:3]:
+        _FirstThree.append(item)
+    for item in newRooms[3:6]:
+        _SecondThree.append(item)
+    for item in newDevices:
+        _Temperature = tp.Temperature(item)
+        _MeasuredTemperature = _Temperature.get_temp()
+        _MeasuredTemperatureList.append(_MeasuredTemperature)
+        _Devices.append(item)
+    return render_template('index.html', devices = _FirstThree, secondDevices = _SecondThree, thirdDevices = _Devices, temps = _MeasuredTemperatureList)
 
 @app.route('/Temperature/Room/<int:id>', methods=['GET'])
 def Temp(id):
@@ -30,8 +44,8 @@ def Sound(id):
 @app.route('/AabnVinduer/Room/<int:id>', methods=['GET'])
 def AabnVinduer(id):
     newService = svc.OpenWindows(id)
-    if newService._Outcome() is None:
+    if newService.outcome is None:
         abort(404)
-    return newService._Outcome()
+    return newService.outcome()
 
 app.run()
