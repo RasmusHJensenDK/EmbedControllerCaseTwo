@@ -21,7 +21,7 @@ def Home():
     for item in newRooms[3:6]:
         _SecondThree.append(item)
     for item in newDevices:
-        _Temperature = tp.Temperature(item)
+        _Temperature = tp.Temperature(sqlDevice = item)
         _MeasuredTemperature = _Temperature.get_temp()
         _MeasuredTemperatureList.append(_MeasuredTemperature)
         _Devices.append(item)
