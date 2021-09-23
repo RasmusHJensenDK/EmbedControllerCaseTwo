@@ -3,61 +3,36 @@
 <h1>{% block title %} Hidsig PI {% endblock %}</h1>
 
 {% block firstDevicesHtml %}
-    {% for post in devices %}
-        <div class="item card card-teaser card-blog-post" style="min-height: 600px" itemscope="" itemtype="http://schema.org/BlogPosting">
-	    <div class="card-body">
-		    <a class="card-title" href="#" itemprop="headline"></a>
-		        <div class="card-subtitle text-muted">
-                    {{post[1]}}
-		        </div>
-		        <div class="card-text" itemprop="abstract">
-			    <p><span><span><span><span><strong><span><span><span>
-			    Rum ID : {{post[0]}}
-                <h3>Information</h3>
-                Vinduer er :{% if post[4] == 0 %} <i>lukket</i> {% else %} <i>åbne</i> {% endif %}
-                <br>
-                Temperatur :{{temps[post[0]]}}
-                <br>
-                Lyd :
-                <br>
-                Lys :
-                <br>
-                <br>
-                <h3 style="margin-bottom:-15px"><b>Devices</b></h3>
-                {% for dvc in thirdDevices %}
-                    {% if post[0] == dvc[3] %}
-                        <br>
-                        Type : <i>{{dvc[2]}}</i>
-                        <br>
-                        ConnectorPin : <i>{{dvc[1]}}</i>
-                        <br>
-                        STATE : <i>{{dvc[4]}}</i>
-                        <br>
-                    {% endif %}
-                {% endfor %}
-                </span></span></span></strong></span></span></span></span></p>
-		    </div>
-	    </div>
+<div>
+<h2 style="text-align:center; color:white">Monitoring <i>Drivhus 1</i></h2>
+    <div style="display:flex">
+        <div style="display:flex; margin-top: 100px; padding-top: 25px">
+            <div class="circleLight borderOpacity" style="margin-right:-50px">
+                <span class="percent-container" style="text-align:center">
+                <span class="percent-value">{{measuredLight}}</span><sup class="percent"><br>Light</sup>
+                </span>
+                <div class="inner startLoading innerOpacity">
+                </div>
+            </div>
+            <div class="circleTemp borderOpacity" style="margin-top:-110px">
+                <span class="percent-container" style="text-align:center">
+                <span class="percent-value">{{measuredTemp}}</span><sup class="percent"><br>Temperature</sup>
+                </span>
+                <div class="inner startLoading innerOpacity">
+                </div>
+            </div>
+            <div class="circleSound borderOpacity" style="margin-left:-50px">
+                <span class="percent-container" style="text-align:center">
+                <span class="percent-value">{{measuredSound}}</span><sup class="percent"><br>Sound</sup>
+                </span>
+                <div class="inner startLoading innerOpacity">
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
+</div>
 {% endblock %}
 
 {% block secondDevicesHtml %}
-    {% for post in secondDevices %}
-        <div class="item card card-teaser card-blog-post" itemscope="" itemtype="http://schema.org/BlogPosting">
-	    <div class="card-body">
-		    <a class="card-title" href="#" itemprop="headline"></a>
-		        <div class="card-subtitle text-muted">
-                    {{post[1]}}
-		        </div>
-		        <div class="card-text" itemprop="abstract">
-			    <p><span><span><span><span><strong><span><span><span>
-			    Rum ID : {{post[0]}}
-                <br>
-                Vinduer er {% if post[3] == 0 %} <i>lukket</i> {% else %} <i>åbne</i> {% endif %}
-                </span></span></span></strong></span></span></span></span></p>
-		    </div>
-	    </div>
-    </div>
-    {% endfor %}
+
 {% endblock %}

@@ -24,6 +24,6 @@ class Temperature():
                     return "Temp is fine at : " + str(temp)
     def get_temp(self):
         [temp, hum] = gpi.dht(self._sqlDevice[1], 0)
-        return temp
+        return str(temp)
     def getVinduerState(self):
         return self._VinduerAabent
