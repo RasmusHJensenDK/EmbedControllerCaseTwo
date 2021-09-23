@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 from Measurement import Temp as tp
 from Measurement import Light as lg
 from Measurement import Sound as ss
+from Data import SystemCheck as sc
 
 app = fk.Flask(__name__)
 app.config["DEBUG"] = False
@@ -18,6 +19,7 @@ def Home():
     measureTemp = tp.Temperature(_Devices[0])
     measureLight = lg.Light(_Devices[1])
     measureSound = ss.SoundCheck(_Devices[2])
+    sc.SystemCheck(2, "WebCheck", _Devices)
     return render_template('index.html', measuredTemp = measureTemp.get_temp(), measuredLight = measureLight.get_light(), measuredSound = measureSound.get_sound())
 
 @app.route('/Setup', methods=['GET'])

@@ -5,12 +5,41 @@ from Measurement import Light as li
 from Measurement import Sound as sd
 from Measurement import Temp as tp
 import grove_rgb_lcd as grl
+import Service as svc
 
 def lcdMessage(message):
     grl.setText(message)
 
+class WebCheck(threading.Thread):
+    _sqlDevice = []
+    def __init__(self, threadID, name, sqlDevice):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self._sqlDevice = sqlDevice
+    def run(self):
+        while True:
+            time.sleep(1)
+            for device in self._sqlDevice:
+                if device[2] == "Light":
+                    devLight = li.Light(device)
+                    measuredLight = devLight.get_light()
+                    if measuredLight < 10:
+                        lcdMessage("Tænder \n for lyset")
+                if self._sqlDevice[2] == "Sound":
+                    devSound = sd.SoundCheck(device)
+                    measuredSound = devSound.get_sound()
+                    if measuredSound > 600:
+                        lcdMessage("WARNING \n SOUND TO HIGH")
+                if self._sqlDevice[2] == "Temp":
+                    devTemp = tp.Temperature(device)
+                    measuredTemp = devTemp.get_temp()
+                    if measuredTemp > 23:
+                        svc.OpenWindows(device[3])
+                        lcdMessage("WARNING \n TEMP TO HIGH")
+
 class SystemCheck(threading.Thread):
-    _Devices = [] 
+    _Devices = []
     def __init__(self, threadID, name, Devices):
         threading.Thread.__init__(self)
         self.threadID = threadID

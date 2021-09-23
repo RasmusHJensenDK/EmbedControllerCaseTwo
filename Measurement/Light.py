@@ -1,5 +1,5 @@
 from Measurement import Device as dvc
-import grovepi as gpi
+#import grovepi as gpi
 
 lys = 0
 
@@ -16,13 +16,14 @@ class Light():
         self._Device = device
         self._sqlDevice = sqlDevice
     def run(self):
-        set_lys(gpi.analogRead(self._Device.get_ConnectorPin()))
+#        set_lys(gpi.analogRead(self._Device.get_ConnectorPin()))
         if get_lys() > 10:
             return ("TÆNDT")
         if get_lys() < 10:
             return ("SLUKKET")
     def get_light(self):
-        return str(gpi.analogRead(self._sqlDevice[1]))
+#        return str(gpi.analogRead(self._sqlDevice[1]))
+        return "40"
 
 def TaandLys():
     print("Tænder lyset")
