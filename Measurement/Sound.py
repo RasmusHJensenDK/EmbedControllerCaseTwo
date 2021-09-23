@@ -1,5 +1,5 @@
 import threading
-import Device as dvc
+from Measurement import Device as dvc
 import grovepi as gpi
 
 class SoundCheck():

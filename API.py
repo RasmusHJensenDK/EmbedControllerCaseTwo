@@ -3,7 +3,6 @@ from flask import render_template, request, url_for, flash, redirect
 import Service as svc
 from werkzeug.exceptions import abort
 from Measurement import Temp as tp
-from Measurement import Device as dvc
 from Measurement import Light as lg
 from Measurement import Sound as ss
 
