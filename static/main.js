@@ -5,6 +5,9 @@ app
     .config(function ($routeProvider, $locationProvider) {
         console.log('I started')
         $routeProvider
+            .when('/', {
+                templateUrl: 'Home'
+            })
             .when('/Home', {
                 templateUrl: 'Home'
             })
@@ -22,6 +25,6 @@ app
         console.log('loads?')
         $scope.testme = function() {
             console.log('yeep')
-            alert("123")
         }
+        
     })
