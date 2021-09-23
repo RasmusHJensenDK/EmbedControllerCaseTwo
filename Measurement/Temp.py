@@ -1,5 +1,5 @@
 from Measurement import Device as dvc
-#import grovepi as gpi
+import grovepi as gpi
 
 class Temperature():
     _Device = dvc.Device(0,"NaN",0,"OFF")
@@ -8,8 +8,8 @@ class Temperature():
         self._Device = device
         self._sqlDevice = sqlDevice
     def run(self):
-        #[temp, hum] = gpi.dht(self._Device.get_ConnectorPin(), 0)
-        temp = 20
+        [temp, hum] = gpi.dht(self._Device.get_ConnectorPin(), 0)
+        #temp = 20
         print(str(temp))
         if self._Device.get_Room().get_id() == 1:
             if temp > 22:
@@ -22,9 +22,12 @@ class Temperature():
                     return "Closing windows as Temp is fine"
                 else:
                     return "Temp is fine at : " + str(temp)
-    def get_temp(self):
-        #[temp, hum] = gpi.dht(self._sqlDevice[1], 0)
-        #return str(temp)
-        return "40"
+    def get_temp(self, cp):
+        print("TEMP")
+        print(str(cp))
+        [temp, hum] = gpi.dht(cp, 0)
+        print("Temp loading")
+        return temp
+        #return "40"
     def getVinduerState(self):
         return self._VinduerAabent

@@ -1,4 +1,4 @@
-import flask as fk 
+import flask as fk
 from flask import render_template, request, url_for, flash, redirect
 import Service as svc
 from werkzeug.exceptions import abort
@@ -16,11 +16,13 @@ def Home():
     _Devices = []
     for item in devices:
         _Devices.append(item)
+    print(_Devices[0][1])
     measureTemp = tp.Temperature(_Devices[0])
     measureLight = lg.Light(_Devices[1])
     measureSound = ss.SoundCheck(_Devices[2])
-    sc.SystemCheck(2, "WebCheck", _Devices)
-    return render_template('index.html', measuredTemp = measureTemp.get_temp(), measuredLight = measureLight.get_light(), measuredSound = measureSound.get_sound())
+    #webcheckThread = sc.WebCheck(2, "WebCheck", _Devices)
+    #webcheckThread.start()
+    return render_template('index.html', measuredTemp = measureTemp.get_temp(_Devices[0][1]), measuredLight = measureLight.get_light(_Devices[1][1]), measuredSound = measureSound.get_sound(_Devices[2][1]))
 
 @app.route('/Setup', methods=['GET'])
 def Setup():
